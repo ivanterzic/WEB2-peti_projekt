@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "name": "web2-lab5-snap_my_catch",
+  "description": "",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install",
+    "clean": "if exist dist rmdir /s /q dist",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "serve": "npm build && npm start"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,13 @@
+koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja
+* pogledajte npr. https://whatpwacando.today/
+biti installable
+imati barem jednu cacheing strategiju
+offline rad barem za app shell
+background sync
+push notifikacija (npr. nakon što prođe bg sync možete poslati push notif)
+demonstrirati barem na jednom primjeru progressive enhancement/gracefull degradation
+
+Aplikaciju postaviti na Render ili neki sličan servis
+Ciljani preglednik je Google Chrome i on će biti korišten kod ocjenjivanja projekata
+U console ne smije biti grešaka ili upozorenja (errors, warnings)
+Smijete uzimati odsječke koda iz predavanja, ali aplikacija ne smije biti previše slična aplikaciji iz predavanja.
