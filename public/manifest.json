@@ -1,0 +1,19 @@
+{
+    "name": "Snap my catch",
+    "short_name": "Snap my catch",
+    "description": "Aplikacija za snimanje i dijeljenje fotografija ulova",
+    "display": "fullscreen",
+    "start_url": ".",
+    "scope": ".",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "author": "Ivan",
+    "lang": "hr",
+    "homepage_url": "localhost:5000",
+    "theme_color": "#021f08",
+    "icons": {
+        "16": "path/to/icon-16.png",
+        "32": "path/to/icon-32.png",
+        "64": "path/to/icon-64.png"
+    }
+}
