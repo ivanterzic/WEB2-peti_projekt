@@ -5,12 +5,13 @@ const photoContainer = document.getElementById('photoContainer');
 const photoElement = document.getElementById('photoElement');
 const retakeButton = document.getElementById('retakeButton');
 const errorContainer = document.getElementById('errorContainer');
-const cameraImageContainer = document.getElementById('camera-image-container');
+const cameraImageContainer = document.getElementById('cameraImageContainer');
 const formContainer = document.getElementById('formContainer');
 const recordButton = document.getElementById('recordButton');
 const playButton = document.getElementById('playButton');
 const stopButton = document.getElementById('stopButton');
 const resetButton = document.getElementById('resetButton');
+
 let mediaRecorder;
 let recordedChunks = [];
 
