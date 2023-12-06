@@ -1,4 +1,5 @@
-+ koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja -> koristim camera i microphone te file system
+koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja
+* pogledajte npr. https://whatpwacando.today/
 + biti installable
 imati barem jednu cacheing strategiju
 offline rad barem za app shell
