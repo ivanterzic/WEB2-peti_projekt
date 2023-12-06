@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/header.css">
+    <link rel="stylesheet" href="stylesheets/post.css">
+    <title>Snap My Catch</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">
+            <img src="favicon.ico" alt="">
+            <span class="app-title">Snap My Catch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="post.html">Objavi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feed.html">Pregledaj objave</a>
+                </li>
+            </ul>
+        </div>
+        <script>
+            document.querySelector('.navbar-toggler').addEventListener('click', function () {
+                var navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                } else {
+                    navbarCollapse.classList.add('show');
+                }
+            });
+        </script>
+    </nav>
+    <div id="camera-image-container">
+        <div class="container text-center mt-2">
+            <h1 class="lead">Objavi ulov</h1>
+        </div>
+        <div id="cameraContainer">
+            <video id="videoElement"></video>
+            <div id="snapButtonContainer">
+                <button id="snapButton" class="btn btn-light btn-outline-dark">Snap Photo</button>
+            </div>
+            <div class="container text-center mt-2">
+                <h1 class="lead">ili...</h1>
+            </div>
+            <input type="file" id="uploadInput" accept="image/*">
+            <div id="errorContainer"></div>
+        </div>
+    </div>
+    <div id="photoContainer" style="display: none;">
+        <img id="photoElement" src="" alt="Snapped or Uploaded Photo">
+        <div class="d-flex justify-content-center">
+            <button id="retakeButton" style="display: block; margin: auto; padding: 8px 16px; font-size: 14px;">Nije
+                slika koju ste htjeli?</button>
+        </div>
+        <div id="formContainer" class="container mt-4">
+            <h2 class="text-center">Informacije o ulovu</h2>
+            <hr>
+            <form id="anglerForm">
+                <div class="form-grid">
+                <div class="form-group">
+                    <label for="angler">Ribolovac</label>
+                    <input type="text" class="form-control" id="angler" placeholder="Unesite ime" required>
+                </div>
+                <div class="form-group">
+                    <label for="fishSpecies">Vrsta</label>
+                    <select class="form-control" id="fishSpecies" required>
+                        <option value="bass">Bass</option>
+                        <option value="trout">Štuka</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Datum ulova</label>
+                    <input type="date" class="form-control" id="date" placeholder="Unesite datum ulova" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Lokacija</label>
+                    <input type="text" class="form-control" id="location" placeholder="Unesite lokaciju">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Težina (kg)</label>
+                    <input type="number" class="form-control" id="weight" placeholder="Unesite težinu" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="length">Dužina (cm)</label>
+                    <input type="number" class="form-control" id="length" placeholder="Unesite dužinu" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="temperature">Temperatura (°C)</label>
+                    <input type="number" class="form-control" id="temperature" placeholder="Unesite temperaturu"
+                        style="max-width: 50%;">
+                </div>
+                <div class="form-group">
+                    <label for="pressure">Tlak (hPa)</label>
+                    <input type="number" class="form-control" id="pressure" placeholder="Unesite tlak">
+                </div>   
+            </div>
+            <div class="form-group">
+                Glasovna poruka
+                <span>Snimite glasovnu poruku drugima kako ste ribu ulovili...</span>
+                <div>
+                    <button id="recordButton" class="btn btn-success">Snimi</button>
+                    <button id="stopButton" class="btn btn-danger" disabled>Zaustavi</button>
+                    <button id="playButton" class="btn btn-secondary" disabled>Reproduciraj</button>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-success">Objavi</button>
+                <button id = "resetButton" class="btn btn-danger">Resetiraj</button>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/post.js"></script>
+</body>
+
+</html>
