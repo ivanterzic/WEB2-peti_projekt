@@ -2,7 +2,7 @@
     "name": "Snap My Catch",
     "short_name": "Snap My Catch",
     "description": "Aplikacija za snimanje i dijeljenje fotografija ulova",
-    "display": "fullscreen",
+    "display": "standalone",
     "start_url": ".",
     "scope": ".",
     "version": "1.0.0",

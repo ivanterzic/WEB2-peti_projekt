@@ -1,6 +1,6 @@
 koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja
 * pogledajte npr. https://whatpwacando.today/
-biti installable
++ biti installable
 imati barem jednu cacheing strategiju
 offline rad barem za app shell
 background sync
