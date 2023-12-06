@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model csrfexample {
+  id              Int     @id @default(autoincrement())
+  name            String? @db.VarChar(255)
+  account_balance Float?
+}
+
+model safecsrftable {
+  id              Int     @id @default(autoincrement())
+  name            String? @db.VarChar(255)
+  account_balance Float?
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(255)
+  password String? @db.VarChar(255)
+  surname  String? @db.VarChar(255)
+  email    String? @db.VarChar(255)
+}
