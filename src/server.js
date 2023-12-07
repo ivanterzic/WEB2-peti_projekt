@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const postRouter = require('./routes/post.routes');
+const onePostRouter = require('./routes/onepost.routes');
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use('/post', postRouter);
+app.use('/onepost', onePostRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../public", "index.html"));

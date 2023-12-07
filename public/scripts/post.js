@@ -42,7 +42,7 @@ snapButton.addEventListener('click', function () {
     canvas.height = videoElement.videoHeight;
     context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
     const photoDataUrl = canvas.toDataURL('image/jpeg');
-    console.log('Captured photo:', photoDataUrl);
+    //console.log('Captured photo:', photoDataUrl);
     showPhoto(photoDataUrl);
 });
 
@@ -128,14 +128,17 @@ saveButton.addEventListener('click', function () {
     const blob = new Blob(recordedChunks, {
         type: 'audio/webm'
     });
+    console.log(blob);
+    console.log(JSON.stringify(blob));
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = function () {
         const base64data = reader.result;
         console.log(base64data);
         audioInput.value = base64data;
-        const audio = new Audio(base64data);
+        const newA = new Audio(base64data);
         console.log(audioInput.value);
+        newA.play();
     };
     if (saveButton.disabled && !playButton.disabled) {
         messageText.textContent = 'Spremljena poruka';
@@ -153,4 +156,3 @@ resetButton.addEventListener('click', function () {
     audioInput.value = '';
     messageText.textContent = 'Nema spremljene poruke';
 });
-

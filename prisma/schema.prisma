@@ -24,4 +24,10 @@ model post {
   pressure Float?
   image String 
   voiceMessage String?
+  dateCreated DateTime @db.Timestamp @default(now())
+}
+
+model fish {
+  fishId Int @id @default(autoincrement())
+  fishName String @db.VarChar(100)
 }

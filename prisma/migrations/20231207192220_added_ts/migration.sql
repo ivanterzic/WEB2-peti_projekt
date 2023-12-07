@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "post" ALTER COLUMN "dateCreated" SET DATA TYPE TIMESTAMP;

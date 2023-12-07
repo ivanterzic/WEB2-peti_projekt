@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "post" ADD COLUMN     "dateCreated" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;

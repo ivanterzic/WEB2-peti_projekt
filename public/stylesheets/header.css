@@ -12,3 +12,7 @@
     margin-right: 5px;
     text-align: center;
 }
+.navbar {
+    border-bottom: 1px solid grey; 
+    margin-bottom: 5px;
+}

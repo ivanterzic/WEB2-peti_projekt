@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <link rel="manifest" href="manifest.json">
@@ -76,11 +75,6 @@
         </div>
     </div>
     <div id="post-container"></div>
-    <div class="d-flex justify-content-center">
-        <h6 id="no-more-posts" style="display: none;" class="lead">No more posts</h6>
-        <button id="show-more-button" class="btn btn-danger" style="display: none;">Show More</button>
-    </div>
-    <hr>
     <script id="post-template" type="text/template">
         <div class="grid-item container w-75 post-container p-2" id="{{id}}">
             <h2 class="lead text-center">{{angler}}</h2>
@@ -134,80 +128,44 @@
                 <div class="grid-item">
                     <strong>Glasovni opis:</strong>
                 </div>
-                <div class="grid-item d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
                     <audio controls>
-                        <source src="" type="audio/mpeg">
+                        <source src="{{voiceMessage}}" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
                 </div>
                 <div class="grid-item">
-                    <strong><a href="/onepost?id={{id}}">Link na post</a></strong>
-                    <button class="btn btn-light ml-5" onclick="copyToClipboard('/onepost?id={{id}}')">Kopiraj link</button>
+                    <button class="btn btn-light" onclick="copyToClipboard('/onepost?id={{id}}')">Kopiraj link</button>
                 </div>
             </div>
         </div>
         <hr>
     </script>
     <script>
-        var offset = 0;
-        var limit = 3;
-
-        function copyToClipboard(text) {
-            var dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-            alert("Link kopiran u međuspremnik!");
-        }
-
-        function fetchPosts() {
+        window.addEventListener('DOMContentLoaded', function () {
             var loadingPage = document.getElementById('loading-page');
             var postContainer = document.getElementById('post-container');
             var postTemplate = document.getElementById('post-template').innerHTML;
-            var noMorePosts = document.getElementById('no-more-posts');
-            var showMoreButton = document.getElementById('show-more-button');
-
-            fetch('/post?offset=' + offset)
+            var urlParams = new URLSearchParams(window.location.search);
+            var postId = urlParams.get('id');
+            fetch('/onepost/getpost?id=' + postId)
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (data) {
                     loadingPage.style.display = 'none';
-                    var postList = '';
-                    data.forEach(function (post) {
-                        var renderedTemplate = postTemplate.replace(/{{(.*?)}}/g, function (match,
-                            key) {
-                            return post[key];
-                        });
-                        if (post.voiceMessage != null && post.voiceMessage != "N/A") {
-                            const audio = new Audio(post.voiceMessage);
-                            renderedTemplate = renderedTemplate.replace(/<source src="" type="audio\/mpeg">/g, "<source src=\"" + post.voiceMessage + "\" type=\"audio\/mpeg\">");
-                        }
-                        postList += renderedTemplate;
+                    var renderedTemplate = postTemplate.replace(/{{(.*?)}}/g, function (match, key) {
+                        return data[key];
                     });
-                    postContainer.innerHTML += postList;
-
-                    if (data.length === 0) {
-                        noMorePosts.style.display = 'block';
-                        showMoreButton.style.display = 'none';
-                    } else {
-                        offset += data.length;
-                        showMoreButton.style.display = 'block';
+                    if (data.voiceMessage != null && data.voiceMessage != "N/A") {
+                        const audio = new Audio(data.voiceMessage);
+                        renderedTemplate = renderedTemplate.replace(/<source src="{{voiceMessage}}" type="audio\/mpeg">/g, "<source src=\"" + data.voiceMessage + "\" type=\"audio\/mpeg\">");
                     }
+                    postContainer.innerHTML = renderedTemplate;
                 })
                 .catch(function (error) {
                     console.error('Error:', error);
                 });
-        }
-
-        window.addEventListener('DOMContentLoaded', function () {
-            fetchPosts();
-        });
-
-        document.getElementById('show-more-button').addEventListener('click', function () {
-            fetchPosts();
         });
     </script>
 </body>
