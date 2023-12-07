@@ -7,3 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model test {
+  id   Int     @id
+  name String?
+}
+
+model post {
+  id Int @id @default(autoincrement())
+  angler String @db.VarChar(100)
+  fishSpecies String @db.VarChar(100)
+  date DateTime @db.Date 
+  location String? @db.VarChar(100)
+  weight Float?
+  length Float?
+  temperature Float?
+  pressure Float?
+  image String 
+  voiceMessage String?
+}

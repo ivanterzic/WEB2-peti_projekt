@@ -68,45 +68,44 @@
         <div id="formContainer" class="container mt-4">
             <h2 class="text-center">Informacije o ulovu</h2>
             <hr>
-            <form id="anglerForm">
+            <form id="anglerForm" action="/post" method="POST">
                 <div class="form-grid">
                 <div class="form-group">
                     <label for="angler">Ribolovac</label>
-                    <input type="text" class="form-control" id="angler" placeholder="Unesite ime" required>
+                    <input type="text" class="form-control" id="angler" name="angler" placeholder="Unesite ime" required max="100">
                 </div>
                 <div class="form-group">
                     <label for="fishSpecies">Vrsta</label>
-                    <select class="form-control" id="fishSpecies" required>
+                    <select class="form-control" id="fishSpecies" name="fishSpecies" required>
                         <option value="bass">Bass</option>
                         <option value="trout">Štuka</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="date">Datum ulova</label>
-                    <input type="date" class="form-control" id="date" placeholder="Unesite datum ulova" required>
+                    <input type="date" class="form-control" id="date" name="date" placeholder="Unesite datum ulova" required>
                 </div>
                 <div class="form-group">
                     <label for="location">Lokacija</label>
-                    <input type="text" class="form-control" id="location" placeholder="Unesite lokaciju">
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Unesite lokaciju" max="100">
                 </div>
                 <div class="form-group">
                     <label for="weight">Težina (kg)</label>
-                    <input type="number" class="form-control" id="weight" placeholder="Unesite težinu" min="0">
+                    <input type="number" class="form-control" id="weight" name="weight" placeholder="Unesite težinu" min="0" step="any">
                 </div>
                 <div class="form-group">
                     <label for="length">Dužina (cm)</label>
-                    <input type="number" class="form-control" id="length" placeholder="Unesite dužinu" min="0">
+                    <input type="number" class="form-control" id="length" name="length" placeholder="Unesite dužinu" min="0" step="any">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="temperature">Temperatura (°C)</label>
-                    <input type="number" class="form-control" id="temperature" placeholder="Unesite temperaturu"
-                        style="max-width: 50%;">
+                    <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Unesite temperaturu" step="any">
                 </div>
                 <div class="form-group">
                     <label for="pressure">Tlak (hPa)</label>
-                    <input type="number" class="form-control" id="pressure" placeholder="Unesite tlak">
-                </div>   
+                    <input type="number" class="form-control" id="pressure" name="pressure" placeholder="Unesite tlak" step="any">
+                </div>
             </div>
             <div class="form-group">
                 Glasovna poruka
@@ -115,18 +114,31 @@
                     <button id="recordButton" class="btn btn-success">Snimi</button>
                     <button id="stopButton" class="btn btn-danger" disabled>Zaustavi</button>
                     <button id="playButton" class="btn btn-secondary" disabled>Reproduciraj</button>
+                    <button id="saveButton" class="btn btn-primary" disabled>Spremi</button>
+                </div>
+                <div id="messageStatus">
+                    <p id="messageText">Nema spremljene poruke</p>
                 </div>
             </div>
+            <input type="hidden" id="image" name="image" value="">
+            <input type="hidden" id="voiceMessage" name="voiceMessage" value="">
             <hr>
             <div class="text-center mb-5">
                 <button type="submit" class="btn btn-success">Objavi</button>
-                <button id = "resetButton" class="btn btn-danger">Resetiraj</button>
+                <button id="resetButton" class="btn btn-danger">Resetiraj</button>
             </div>
             </form>
         </div>
     </div>
 
     <script src="scripts/post.js"></script>
+    <script>
+        var saveButton = document.getElementById('saveButton');
+        var playButton = document.getElementById('playButton');
+        
+
+       
+    </script>
 </body>
 
 </html>

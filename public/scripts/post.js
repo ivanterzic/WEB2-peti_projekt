@@ -11,13 +11,18 @@ const recordButton = document.getElementById('recordButton');
 const playButton = document.getElementById('playButton');
 const stopButton = document.getElementById('stopButton');
 const resetButton = document.getElementById('resetButton');
+const saveButton = document.getElementById('saveButton');
+const messageText = document.getElementById('messageText');
+
+const imageInput = document.getElementById('image');
+const audioInput = document.getElementById('voiceMessage');
 
 let mediaRecorder;
 let recordedChunks = [];
 
 navigator.mediaDevices.getUserMedia({
-        video: true
-    })
+    video: true
+})
     .then(function (stream) {
         videoElement.srcObject = stream;
         videoElement.play();
@@ -29,6 +34,7 @@ navigator.mediaDevices.getUserMedia({
         errorMessage.style.color = 'red';
         cameraContainer.appendChild(errorMessage);
     });
+
 snapButton.addEventListener('click', function () {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -39,6 +45,7 @@ snapButton.addEventListener('click', function () {
     console.log('Captured photo:', photoDataUrl);
     showPhoto(photoDataUrl);
 });
+
 uploadInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -62,6 +69,8 @@ function showPhoto(photoDataUrl) {
     retakeButton.style.display = 'inline-block';
     formContainer.style.display = 'block';
     snapButtonContainer.style.display = 'none';
+
+    imageInput.value = photoDataUrl;
 }
 
 retakeButton.addEventListener('click', function () {
@@ -71,14 +80,15 @@ retakeButton.addEventListener('click', function () {
 recordButton.addEventListener('click', function () {
     event.preventDefault();
     navigator.mediaDevices.getUserMedia({
-            audio: true
-        })
+        audio: true
+    })
         .then(function (stream) {
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
             recordButton.disabled = true;
             playButton.disabled = true;
             stopButton.disabled = false;
+            saveButton.disabled = true;
             recordedChunks = [];
             mediaRecorder.addEventListener('dataavailable', function (e) {
                 recordedChunks.push(e.data);
@@ -100,6 +110,7 @@ stopButton.addEventListener('click', function () {
     recordButton.disabled = false;
     playButton.disabled = false;
     stopButton.disabled = true;
+    saveButton.disabled = false;
 });
 
 playButton.addEventListener('click', function () {
@@ -112,10 +123,34 @@ playButton.addEventListener('click', function () {
     audio.play();
 });
 
+saveButton.addEventListener('click', function () {
+    saveButton.disabled = true;
+    const blob = new Blob(recordedChunks, {
+        type: 'audio/webm'
+    });
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+        const base64data = reader.result;
+        console.log(base64data);
+        audioInput.value = base64data;
+        const audio = new Audio(base64data);
+        console.log(audioInput.value);
+    };
+    if (saveButton.disabled && !playButton.disabled) {
+        messageText.textContent = 'Spremljena poruka';
+    } else {
+        messageText.textContent = 'Nema spremljene poruke';
+    }
+});
+
 resetButton.addEventListener('click', function () {
     event.preventDefault();
     recordButton.disabled = false;
     playButton.disabled = true;
     stopButton.disabled = true;
     document.getElementById('anglerForm').reset();
+    audioInput.value = '';
+    messageText.textContent = 'Nema spremljene poruke';
 });
+
