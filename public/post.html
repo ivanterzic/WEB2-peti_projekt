@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheets/header.css">
     <link rel="stylesheet" href="stylesheets/post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <title>Snap My Catch</title>
 </head>
 
@@ -76,9 +76,8 @@
                 </div>
                 <div class="form-group">
                     <label for="fishSpecies">Vrsta</label>
-                    <select class="form-control" id="fishSpecies" name="fishSpecies" required>
-                        <option value="bass">Bass</option>
-                        <option value="trout">Štuka</option>
+                    <select class="form-control" id="fishSpecies" name="fishSpecies" required style="width: 50%;">
+                        <option value="">učitavam...</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -133,7 +132,28 @@
         </div>
     </div>
     <script src="scripts/post.js"></script>
-    <script src="./scripts/swRegister.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        // Fetch fish species options
+        fetch('/fish')
+            .then(response => response.json())
+            .then(data => {
+                const fishSpeciesSelect = document.getElementById('fishSpecies');
+                fishSpeciesSelect.innerHTML = '';
+                data.forEach(fish => {
+                    const option = document.createElement('option');
+                    option.value = fish.fishName;
+                    option.textContent = fish.fishName;
+                    fishSpeciesSelect.appendChild(option);
+                });
+                $(fishSpeciesSelect).select2();
+            })
+            .catch(error => {
+                console.error('Error fetching fish species:', error);
+            });
+    </script>
 </body>
 
 </html>
