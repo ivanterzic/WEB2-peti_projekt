@@ -39,13 +39,30 @@
                 });
             </script>
         </nav>
-        <h1 class="lead">Tes123t</h1>
-        <script>
-            navigator.serviceWorker.register('sw.js').then(function(registration) {
-                console.log('Service worker registered ! ', registration);
-            }).catch(function(err) {
-                console.log('Service worker registration failed: ', err);
-            });
-        </script>
+        <main class="container shadow p-3">     
+            <hr>
+            <div class="row p-2 d-flex flex-row">
+              <div class="col-md-7 justify-content-center align-items-center">
+                <h4>Podijeli ulov s drugima. <span class="text-muted">Brzo i jednostavno.</span></h4>
+                <p>Potraži gumb Objavi u meniju.</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row p-2 d-flex justify-content-end">
+              <div class="col-md-7 order-md-2 align-content-end">
+                <h4>Pogledaj što drugi love. <span class="text-muted"></span></h4>
+                <p>Potraži gumb Pregledaj objave u meniju.</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row p-2 d-flex flex-row">
+                <div class="col-md-7 justify-content-center align-items-center">
+                  <h4>Kopiraj link ulova <span class="text-muted">i podjeli s drugima.</span></h4>
+                  <p>Možeš i otvoriti link koji je netko tebi poslao.</p>
+                </div>
+              </div>
+            <hr>
+        </main>
+        <script src="./scripts/swRegister.js"></script>
     </body>
     </html>
