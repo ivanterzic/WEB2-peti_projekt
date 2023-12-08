@@ -162,11 +162,9 @@
                     image: document.getElementById('image').value,
                     voiceMessage: document.getElementById('voiceMessage').value
                 };
-                console.log("object created");
                 navigator.serviceWorker.ready
                     .then(function (swRegistration) {
-                        console.log(Number(new Date()))
-                        console.log("Setting object:")
+                        console.log('swRegistration', swRegistration)
                         set(Number(new Date()), object);
                         return swRegistration.sync.register('uploadPost');
                     })

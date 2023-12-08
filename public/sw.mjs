@@ -19,7 +19,6 @@ const filesToCache = [
     '/stylesheets/post.css',
     '/stylesheets/header.css',
     '/scripts/post.js',
-    '/scripts/swRegister.js',
     'manifest.json',
     '/icons/manifest-icon-192.maskable.png',
     '/icons/manifest-icon-512.maskable.png',
@@ -80,7 +79,6 @@ self.addEventListener('fetch', function (event) {
         })
         .catch(function (error) {
             //console.log('Error, ', error);
-
             if (event.request.url.includes('/post?offset=')) {
                 return new Response(JSON.stringify({}), {
                     headers: {
@@ -95,6 +93,7 @@ self.addEventListener('fetch', function (event) {
 
 self.addEventListener('sync', function (event) {
     console.log('Service worker sync event!');
+    console.log(event);
     if (event.tag === 'uploadPost') {
         event.waitUntil(
             syncPosts()
@@ -106,7 +105,6 @@ async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
             let post = entry[1];
-
             let formData = {}
             formData.angler = post.angler;
             formData.fishSpecies = post.fishSpecies;
@@ -127,8 +125,8 @@ async function syncPosts() {
                 body: JSON.stringify(formData)
             });
             if (response.ok) {
-                console.log('Post successfully uploaded!');
                 del(entry[0]);
+                console.log('Post successfully uploaded!');
             } else {
                 console.log('Post upload failed!');
             }
