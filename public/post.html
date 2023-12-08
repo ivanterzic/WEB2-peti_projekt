@@ -50,7 +50,7 @@
         <div id="cameraContainer">
             <video id="videoElement"></video>
             <div id="snapButtonContainer">
-                <button id="snapButton" class="btn btn-light btn-outline-dark">Snap Photo</button>
+                <button id="snapButton" class="btn btn-light btn-outline-dark">Uslikaj</button>
             </div>
             <div class="container text-center mt-2">
                 <h1 class="lead">ili...</h1>
@@ -135,7 +135,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        // Fetch fish species options
         fetch('/fish')
             .then(response => response.json())
             .then(data => {

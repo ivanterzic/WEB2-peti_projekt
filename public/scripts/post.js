@@ -30,7 +30,7 @@ navigator.mediaDevices.getUserMedia({
     .catch(function (error) {
         console.error('Error accessing camera:', error);
         const errorMessage = document.createElement('p');
-        errorMessage.textContent = 'Failed to access the camera. Please check your camera settings.';
+        errorMessage.textContent = 'Vaš preglednik ne podržava kameru.';
         errorMessage.style.color = 'red';
         cameraContainer.appendChild(errorMessage);
     });
@@ -58,7 +58,7 @@ uploadInput.addEventListener('change', function (event) {
         errorContainer.textContent = '';
     } else {
         uploadInput.value = '';
-        errorContainer.textContent = 'Invalid file format. Please upload an image file.';
+        errorContainer.textContent = 'Nevaljani format slike. Molimo učitajte datoteku u formatu slike.';
     }
 });
 
@@ -96,11 +96,7 @@ recordButton.addEventListener('click', function () {
         })
         .catch(function (error) {
             console.error('Error accessing microphone:', error);
-            const errorMessage = document.createElement('p');
-            errorMessage.textContent =
-                'Failed to access the microphone. Please check your microphone settings.';
-            errorMessage.style.color = 'red';
-            formContainer.appendChild(errorMessage);
+            messageText.textContent = 'Vaš preglednik ne podržava mikrofon ili niste dodijelili dozvolu za njega.';                
         });
 });
 

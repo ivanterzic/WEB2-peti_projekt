@@ -1,10 +1,10 @@
 + koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja -> koristim camera i microphone te file system
 + biti installable
-imati barem jednu cacheing strategiju
-offline rad barem za app shell
++ imati barem jednu cacheing strategiju -> koristim cache first za neke stvari, neke ne spemam u cache
++ offline rad barem za app shell -> prikaziju se sve html stranice, js i css koji su u cacheu (sve osim prikaza jedne objave) te se keširaju 3 najnovija posta koja je korisnik dohvatio za prikaz i njih može vidjeti, ako se nečemu ne može pristupiti prikazuje se prikladna stranica
 background sync
 push notifikacija (npr. nakon što prođe bg sync možete poslati push notif)
-demonstrirati barem na jednom primjeru progressive enhancement/gracefull degradation
++ demonstrirati barem na jednom primjeru progressive enhancement/gracefull degradation -> ako nema kameru ili mikrofon pokazuje se poruka (gracefull degradation)
 
 Aplikaciju postaviti na Render ili neki sličan servis
 Ciljani preglednik je Google Chrome i on će biti korišten kod ocjenjivanja projekata

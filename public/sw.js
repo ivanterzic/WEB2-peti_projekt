@@ -26,6 +26,7 @@ const dynamicCacheName = 'posts-cache-v2';
 
 self.addEventListener('install', function (event) {
     console.log('Service worker installing...');
+    self.skipWaiting();
     event.waitUntil(
         caches.open(staticCacheName)
         .then(function (cache) {
