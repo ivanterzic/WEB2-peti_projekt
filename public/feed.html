@@ -66,6 +66,7 @@
                 0% {
                     transform: rotate(0deg);
                 }
+
                 100% {
                     transform: rotate(360deg);
                 }
@@ -78,7 +79,7 @@
     <div id="post-container"></div>
     <div class="d-flex justify-content-center">
         <h6 id="no-more-posts" style="display: none;" class="lead">Nema više objava za pregled.</h6>
-        <button id="show-more-button" class="btn btn-danger" style="display: none;">Pokaži više...</button>
+        <button id="show-more-button" class="btn btn-danger">Pokaži više...</button>
     </div>
     <hr>
     <script id="post-template" type="text/template">
@@ -142,7 +143,7 @@
                 </div>
                 <div class="grid-item">
                     <strong><a href="/onepost?id={{id}}">Link na post</a></strong>
-                    <button class="btn btn-light ml-5" onclick="copyToClipboard('/onepost?id={{id}}')">Kopiraj link</button>
+                    <button class="btn btn-light ml-5" onclick="copyToClipboard(window.location.origin + '/onepost?id={{id}}')">Kopiraj link</button>
                 </div>
             </div>
         </div>
@@ -168,38 +169,50 @@
             var postTemplate = document.getElementById('post-template').innerHTML;
             var noMorePosts = document.getElementById('no-more-posts');
             var showMoreButton = document.getElementById('show-more-button');
+            try {
+                fetch('/post?offset=' + offset)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        loadingPage.style.display = 'none';
+                        var postList = '';
+                        if (data.length === undefined){
+                            noMorePosts.style.display = 'block';
+                            showMoreButton.style.display = 'none';
+                            throw new Error("No more posts");
 
-            fetch('/post?offset=' + offset)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    loadingPage.style.display = 'none';
-                    var postList = '';
-                    data.forEach(function (post) {
-                        var renderedTemplate = postTemplate.replace(/{{(.*?)}}/g, function (match,
-                            key) {
-                            return post[key];
-                        });
-                        if (post.voiceMessage != null && post.voiceMessage != "N/A") {
-                            const audio = new Audio(post.voiceMessage);
-                            renderedTemplate = renderedTemplate.replace(/<source src="" type="audio\/mpeg">/g, "<source src=\"" + post.voiceMessage + "\" type=\"audio\/mpeg\">");
+                            
                         }
-                        postList += renderedTemplate;
+                        data.forEach(function (post) {
+                            var renderedTemplate = postTemplate.replace(/{{(.*?)}}/g, function (match,
+                                key) {
+                                return post[key];
+                            });
+                            if (post.voiceMessage != null && post.voiceMessage != "N/A") {
+                                const audio = new Audio(post.voiceMessage);
+                                renderedTemplate = renderedTemplate.replace(
+                                    /<source src="" type="audio\/mpeg">/g, "<source src=\"" + post
+                                    .voiceMessage + "\" type=\"audio\/mpeg\">");
+                            }
+                            postList += renderedTemplate;
+                        });
+                        postContainer.innerHTML += postList;
+                        if (data.length === 0) {
+                            noMorePosts.style.display = 'block';
+                            showMoreButton.style.display = 'none';
+                        }
+                        offset += limit;
+                    }).catch(function (error) {
+                        //console.log(error);
                     });
-                    postContainer.innerHTML += postList;
+            } catch (error) {
+                noMorePosts.style.display = 'block';
+                showMoreButton.style.display = 'none';
+                //console.error(error);
+            }
 
-                    if (data.length === 0) {
-                        noMorePosts.style.display = 'block';
-                        showMoreButton.style.display = 'none';
-                    } else {
-                        offset += data.length;
-                        showMoreButton.style.display = 'block';
-                    }
-                })
-                .catch(function (error) {
-                    console.error('Error:', error);
-                });
+            
         }
 
         window.addEventListener('DOMContentLoaded', function () {
