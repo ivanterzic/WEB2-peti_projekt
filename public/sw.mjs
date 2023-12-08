@@ -27,7 +27,7 @@ const filesToCache = [
 
 const staticCacheName = 'pages-cache-v2';
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', async function (event) {
     console.log('Service worker installing...');
     event.waitUntil(
         caches.open(staticCacheName)
@@ -36,6 +36,7 @@ self.addEventListener('install', function (event) {
         })
     );
     self.skipWaiting();
+    await syncPosts();
 });
 
 self.addEventListener('activate', async function (event) {
@@ -117,19 +118,25 @@ async function syncPosts() {
             formData.image = post.image;
             formData.voiceMessage = post.voiceMessage;
 
-            const response = await fetch('/post', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            if (response.ok) {
-                del(entry[0]);
-                console.log('Post successfully uploaded!');
-            } else {
-                console.log('Post upload failed!');
+            try {
+                const response = await fetch('/post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                if (response.ok) {
+                    del(entry[0]);
+                    console.log('Post successfully uploaded!');
+                } else {
+                    console.log('Post upload failed!');
+                }
             }
+            catch(err){
+                console.log(err);
+            }
+            
         });
     });
 }
