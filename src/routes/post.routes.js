@@ -6,6 +6,11 @@ const { sanitizeBody } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+router.use(express.urlencoded({
+    extended: true,
+    limit: '50mb'
+}));
+
 router.post('/', [
     body('angler').trim().isLength({ min: 1 }).escape(),
     body('fishSpecies').trim().isLength({ min: 1 }).escape(),
@@ -22,7 +27,6 @@ router.post('/', [
     if (!errors.isEmpty()) {
         res.sendFile(path.join(__dirname, "../../public", "postUnsuccessful.html"));
     }
-
     try {
         const { angler, fishSpecies, date, location, weight, length, temperature, pressure, image, voiceMessage } = req.body;
         const newPost = await prisma.post.create({
@@ -41,8 +45,7 @@ router.post('/', [
         });
         res.sendFile(path.join(__dirname, "../../public", "postSuccessful.html"));
     } catch (error) {
-        console.error(error);
-        res.sendFile(path.join(__dirname, "../../public", "postUnsuccessful.html"));
+        console.log(error);
     }
 });
 
@@ -70,10 +73,9 @@ router.get('/', async function(req, res) {
         });
         res.json(formattedPosts);
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.sendFile(path.join(__dirname, "../../public", "500.html"));
     }
 });
-
 
 module.exports = router;

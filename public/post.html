@@ -68,76 +68,128 @@
         <div id="formContainer" class="container mt-4">
             <h2 class="text-center">Informacije o ulovu</h2>
             <hr>
-            <form id="anglerForm" action="/post" method="POST">
+            <form id="anglerForm" method="post" action="/post">
                 <div class="form-grid">
-                <div class="form-group">
-                    <label for="angler">Ribolovac</label>
-                    <input type="text" class="form-control" id="angler" name="angler" placeholder="Unesite ime" required max="100">
+                    <div class="form-group">
+                        <label for="angler">Ribolovac</label>
+                        <input type="text" class="form-control" id="angler" name="angler" placeholder="Unesite ime"
+                            required max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="fishSpecies">Vrsta</label>
+                        <select class="form-control" id="fishSpecies" name="fishSpecies" required style="width: 50%;">
+                            <option value="">učitavam...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Datum ulova</label>
+                        <input type="date" class="form-control" id="date" name="date" placeholder="Unesite datum ulova"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Lokacija</label>
+                        <input type="text" class="form-control" id="location" name="location"
+                            placeholder="Unesite lokaciju" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Težina (kg)</label>
+                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Unesite težinu"
+                            min="0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="length">Dužina (cm)</label>
+                        <input type="number" class="form-control" id="length" name="length" placeholder="Unesite dužinu"
+                            min="0" step="any">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Temperatura (°C)</label>
+                        <input type="number" class="form-control" id="temperature" name="temperature"
+                            placeholder="Unesite temperaturu" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="pressure">Tlak (hPa)</label>
+                        <input type="number" class="form-control" id="pressure" name="pressure"
+                            placeholder="Unesite tlak" step="any">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="fishSpecies">Vrsta</label>
-                    <select class="form-control" id="fishSpecies" name="fishSpecies" required style="width: 50%;">
-                        <option value="">učitavam...</option>
-                    </select>
+                    Glasovna poruka
+                    <span>Snimite glasovnu poruku drugima kako ste ribu ulovili...</span>
+                    <div>
+                        <button id="recordButton" class="btn btn-success">Snimi</button>
+                        <button id="stopButton" class="btn btn-danger" disabled>Zaustavi</button>
+                        <button id="playButton" class="btn btn-secondary" disabled>Reproduciraj</button>
+                        <button id="saveButton" class="btn btn-primary" disabled>Spremi</button>
+                    </div>
+                    <div id="messageStatus">
+                        <p id="messageText">Nema spremljene poruke</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="date">Datum ulova</label>
-                    <input type="date" class="form-control" id="date" name="date" placeholder="Unesite datum ulova" required>
-                </div>
-                <div class="form-group">
-                    <label for="location">Lokacija</label>
-                    <input type="text" class="form-control" id="location" name="location" placeholder="Unesite lokaciju" max="100">
-                </div>
-                <div class="form-group">
-                    <label for="weight">Težina (kg)</label>
-                    <input type="number" class="form-control" id="weight" name="weight" placeholder="Unesite težinu" min="0" step="any">
-                </div>
-                <div class="form-group">
-                    <label for="length">Dužina (cm)</label>
-                    <input type="number" class="form-control" id="length" name="length" placeholder="Unesite dužinu" min="0" step="any">
+                <input type="hidden" id="image" name="image" value="">
+                <input type="hidden" id="voiceMessage" name="voiceMessage" value="">
+                <hr>
+                <div class="text-center mb-5">
+                    <button id="submitButton" class="btn btn-success">Objavi</button>
+                    <button id="resetButton" class="btn btn-danger">Resetiraj</button>
                 </div>
 
-                <div class="form-group">
-                    <label for="temperature">Temperatura (°C)</label>
-                    <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Unesite temperaturu" step="any">
-                </div>
-                <div class="form-group">
-                    <label for="pressure">Tlak (hPa)</label>
-                    <input type="number" class="form-control" id="pressure" name="pressure" placeholder="Unesite tlak" step="any">
-                </div>
-            </div>
-            <div class="form-group">
-                Glasovna poruka
-                <span>Snimite glasovnu poruku drugima kako ste ribu ulovili...</span>
-                <div>
-                    <button id="recordButton" class="btn btn-success">Snimi</button>
-                    <button id="stopButton" class="btn btn-danger" disabled>Zaustavi</button>
-                    <button id="playButton" class="btn btn-secondary" disabled>Reproduciraj</button>
-                    <button id="saveButton" class="btn btn-primary" disabled>Spremi</button>
-                </div>
-                <div id="messageStatus">
-                    <p id="messageText">Nema spremljene poruke</p>
-                </div>
-            </div>
-            <input type="hidden" id="image" name="image" value="">
-            <input type="hidden" id="voiceMessage" name="voiceMessage" value="">
-            <hr>
-            <div class="text-center mb-5">
-                <button type="submit" class="btn btn-success">Objavi</button>
-                <button id="resetButton" class="btn btn-danger">Resetiraj</button>
-            </div>
-            
             </form>
-            
+
         </div>
     </div>
     <script src="scripts/post.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
+
+    <script type="module">
+        import {
+            get,
+            set,
+        } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
+        document.getElementById('submitButton').addEventListener('click', function (event) {
+            event.preventDefault();
+            if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                let object = {
+                    angler: document.getElementById('angler').value,
+                    fishSpecies: document.getElementById('fishSpecies').value,
+                    date: document.getElementById('date').value,
+                    location: document.getElementById('location').value,
+                    weight: document.getElementById('weight').value,
+                    length: document.getElementById('length').value,
+                    temperature: document.getElementById('temperature').value,
+                    pressure: document.getElementById('pressure').value,
+                    image: document.getElementById('image').value,
+                    voiceMessage: document.getElementById('voiceMessage').value
+                };
+                console.log("object created");
+                navigator.serviceWorker.ready
+                    .then(function (swRegistration) {
+                        console.log(Number(new Date()))
+                        console.log("Setting object:")
+                        set(Number(new Date()), object);
+                        return swRegistration.sync.register('uploadPost');
+                    })
+                    .then(function () {
+                        console.log('Post registered for sync');
+                        window.location.href = 'postSuccessful.html';
+                    })
+                    .catch(function (err) {
+                        console.log('Error registering post for sync', err);
+                        window.location.href = 'postUnsuccessful.html';
+                    });
+            } else {
+                console.log('Service worker not supported');
+                alert(
+                    'Vaš preglednik ne podržava service worker. Pokušat će se poslati ulov bez service workera. Ako se ne uspije poslati, pokušajte ponovno kasnije.');
+                document.getElementById('anglerForm').submit();
+            }
+        });
+
         fetch('/fish')
             .then(response => response.json())
             .then(data => {
+                //console.log(data);
                 const fishSpeciesSelect = document.getElementById('fishSpecies');
                 fishSpeciesSelect.innerHTML = '';
                 data.forEach(fish => {
@@ -147,7 +199,9 @@
                     fishSpeciesSelect.appendChild(option);
                 });
                 $(fishSpeciesSelect).select2();
+
             })
+            
             .catch(error => {
                 console.log('Error fetching fish species:', error);
             });

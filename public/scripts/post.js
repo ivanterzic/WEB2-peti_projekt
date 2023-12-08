@@ -28,7 +28,7 @@ navigator.mediaDevices.getUserMedia({
         videoElement.play();
     })
     .catch(function (error) {
-        console.error('Error accessing camera:', error);
+        console.log('Error accessing camera:', error);
         const errorMessage = document.createElement('p');
         errorMessage.textContent = 'Vaš preglednik ne podržava kameru.';
         errorMessage.style.color = 'red';
@@ -95,7 +95,7 @@ recordButton.addEventListener('click', function () {
             });
         })
         .catch(function (error) {
-            console.error('Error accessing microphone:', error);
+            console.log('Error accessing microphone:', error);
             messageText.textContent = 'Vaš preglednik ne podržava mikrofon ili niste dodijelili dozvolu za njega.';                
         });
 });
@@ -124,17 +124,17 @@ saveButton.addEventListener('click', function () {
     const blob = new Blob(recordedChunks, {
         type: 'audio/webm'
     });
-    console.log(blob);
-    console.log(JSON.stringify(blob));
+    //console.log(blob);
+    //console.log(JSON.stringify(blob));
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = function () {
         const base64data = reader.result;
-        console.log(base64data);
+        //console.log(base64data);
         audioInput.value = base64data;
-        const newA = new Audio(base64data);
-        console.log(audioInput.value);
-        newA.play();
+        //const newA = new Audio(base64data);
+        //console.log(audioInput.value);
+        //newA.play();
     };
     if (saveButton.disabled && !playButton.disabled) {
         messageText.textContent = 'Spremljena poruka';
