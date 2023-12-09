@@ -27,6 +27,10 @@ const filesToCache = [
 
 const staticCacheName = 'pages-cache-v2';
 
+self.addEventListener8('fetch', function (event) {
+    console.log('Online? ', navigator.onLine); // true or false
+});
+
 self.addEventListener('install', async function (event) {
     console.log('Service worker installing...');
     event.waitUntil(
@@ -36,7 +40,7 @@ self.addEventListener('install', async function (event) {
         })
     );
     self.skipWaiting();
-    await syncPosts();
+    //await syncPosts();
 });
 
 self.addEventListener('activate', async function (event) {
