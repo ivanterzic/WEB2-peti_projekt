@@ -1,6 +1,9 @@
 import {
     del,
-    entries
+    entries,
+    get,
+    set,
+    keys
 } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
 
 const filesToCache = [
@@ -22,14 +25,9 @@ const filesToCache = [
     'manifest.json',
     '/icons/manifest-icon-192.maskable.png',
     '/icons/manifest-icon-512.maskable.png',
-
 ];
 
 const staticCacheName = 'pages-cache-v2';
-
-self.addEventListener('fetch', function (event) {
-    console.log('Online? ', navigator.onLine); // true or false
-});
 
 self.addEventListener('install', async function (event) {
     console.log('Service worker installing...');
@@ -40,7 +38,6 @@ self.addEventListener('install', async function (event) {
         })
     );
     self.skipWaiting();
-    //await syncPosts();
 });
 
 self.addEventListener('activate', async function (event) {
@@ -56,7 +53,15 @@ self.addEventListener('activate', async function (event) {
             );
         })
     );
-    /*await syncPosts();*/
+    keys().then(function (keys) {
+        let keysCopyWithLastResponse = keys;
+        keysCopyWithLastResponse = keysCopyWithLastResponse.filter(function (key) {
+            return key !== 'lastResponse';
+        });
+        if (keysCopyWithLastResponse.length > 0) {
+            self.registration.sync.register('uploadPost');
+        }
+    });
 });
 
 self.addEventListener('fetch', function (event) {
@@ -73,6 +78,12 @@ self.addEventListener('fetch', function (event) {
             }
             return fetch(event.request)
                 .then(function (response) {
+                    if (event.request.url.includes('post?offset=0')) {
+                        return response.clone().json().then(function (data) {
+                            set('lastResponse', data);
+                            return response;
+                        });
+                    }
                     if (response.status === 404) {
                         return caches.match('404.html');
                     }
@@ -80,25 +91,57 @@ self.addEventListener('fetch', function (event) {
                         return caches.match('500.html');
                     }
                     return response;
-                });
-        })
-        .catch(function (error) {
-            //console.log('Error, ', error);
-            if (event.request.url.includes('/post?offset=')) {
-                return new Response(JSON.stringify({}), {
-                    headers: {
-                        'Content-Type': 'application/json'
+                })
+                .catch(function (error) {
+                    //console.log('Error, ', error);
+                    if (event.request.url.includes('/fish')) {
+                        return new Response(JSON.stringify({}), {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
                     }
+
+                    if (event.request.url.includes('post?offset=0')) {
+                        return get('lastResponse')
+                            .then(function (lastResponse) {
+                                if (lastResponse) {
+                                    return new Response(JSON.stringify(lastResponse), {
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+                                } else {
+                                    return new Response(JSON.stringify({}), {
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+                                }
+                            })
+                            .catch(function (error) {
+                                return new Response(JSON.stringify({}), {
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                            });
+                    }
+                    else if (event.request.url.includes('post?offset=') && !event.request.url.includes('post?offset=0')) {
+                        return new Response(JSON.stringify({}), {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                    }
+                    return caches.match('offline.html');
                 });
-            }
-            return caches.match('offline.html');
         })
     );
 });
 
 self.addEventListener('sync', function (event) {
     console.log('Service worker sync event!');
-    console.log(event);
     if (event.tag === 'uploadPost') {
         event.waitUntil(
             syncPosts()
@@ -109,6 +152,9 @@ self.addEventListener('sync', function (event) {
 async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
+            if (entry[0] === 'lastResponse') {
+                return;
+            }
             let post = entry[1];
             let formData = {}
             formData.angler = post.angler;
@@ -121,7 +167,6 @@ async function syncPosts() {
             formData.pressure = post.pressure;
             formData.image = post.image;
             formData.voiceMessage = post.voiceMessage;
-
             try {
                 const response = await fetch('/post', {
                     method: 'POST',
@@ -132,15 +177,14 @@ async function syncPosts() {
                 });
                 if (response.ok) {
                     del(entry[0]);
-                    console.log('Post successfully uploaded!');
+                    //console.log('Post successfully uploaded!');
                 } else {
-                    console.log('Post upload failed!');
+                    //console.log('Post upload failed!');
                 }
             }
             catch(err){
-                console.log(err);
+                //console.log(err);
             }
-            
         });
     });
 }

@@ -164,7 +164,7 @@
                 };
                 navigator.serviceWorker.ready
                     .then(function (swRegistration) {
-                        console.log('swRegistration', swRegistration)
+                        //console.log('swRegistration', swRegistration)
                         set(Number(new Date()), object);
                         return swRegistration.sync.register('uploadPost');
                     })
@@ -173,7 +173,7 @@
                         window.location.href = 'postSuccessful.html';
                     })
                     .catch(function (err) {
-                        console.log('Error registering post for sync', err);
+                        //console.log('Error registering post for sync', err);
                         window.location.href = 'postUnsuccessful.html';
                     });
             } else {
@@ -200,9 +200,10 @@
 
             })
             .catch(error => {
-                console.log('Error fetching fish species:', error);
+                //console.log('Error fetching fish species:', error);
                 window.location.href = '500.html';
             });
+        
     </script>
 </body>
 

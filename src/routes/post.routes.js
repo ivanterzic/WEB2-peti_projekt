@@ -46,6 +46,7 @@ router.post('/', [
         res.sendFile(path.join(__dirname, "../../public", "postSuccessful.html"));
     } catch (error) {
         console.log(error);
+        res.sendFile(path.join(__dirname, "../../public", "postUnsuccessful.html"));
     }
 });
 
