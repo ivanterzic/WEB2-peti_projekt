@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const bodyParser = require('body-parser');
 const postRouter = require('./routes/post.routes');
 const onePostRouter = require('./routes/onepost.routes');
 const { PrismaClient } = require('@prisma/client');
