@@ -27,7 +27,7 @@ const filesToCache = [
 
 const staticCacheName = 'pages-cache-v2';
 
-self.addEventListener8('fetch', function (event) {
+self.addEventListener('fetch', function (event) {
     console.log('Online? ', navigator.onLine); // true or false
 });
 
