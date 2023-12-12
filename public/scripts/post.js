@@ -28,7 +28,7 @@ navigator.mediaDevices.getUserMedia({
         videoElement.play();
     })
     .catch(function (error) {
-        console.log('Error accessing camera:', error);
+        //console.log('Error accessing camera:', error);
         const errorMessage = document.createElement('p');
         errorMessage.textContent = 'Vaš preglednik ne podržava kameru.';
         errorMessage.style.color = 'red';
