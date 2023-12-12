@@ -5,8 +5,3 @@
 + background sync -> sync postoji, sprema se u index db te se provjerava ima li zapisa za sinkronizaciju. Ako se sinkronizacija ne može obaviti, zapisi ostaju u bazi te se pokušava opet kasnije
 + push notifikacija (npr. nakon što prođe bg sync možete poslati push notif) -> obavijesti o novim objavama
 + demonstrirati barem na jednom primjeru progressive enhancement/gracefull degradation -> ako nema kameru ili mikrofon pokazuje se poruka (gracefull degradation)
-
-Aplikaciju postaviti na Render ili neki sličan servis
-Ciljani preglednik je Google Chrome i on će biti korišten kod ocjenjivanja projekata
-U console ne smije biti grešaka ili upozorenja (errors, warnings)
-Smijete uzimati odsječke koda iz predavanja, ali aplikacija ne smije biti previše slična aplikaciji iz predavanja.

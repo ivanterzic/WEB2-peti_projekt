@@ -22,6 +22,8 @@ const filesToCache = [
     '/stylesheets/post.css',
     '/stylesheets/header.css',
     '/scripts/post.js',
+    '/scripts/notification.js',
+    '/scripts/header.js',
     'manifest.json',
     '/icons/manifest-icon-192.maskable.png',
     '/icons/manifest-icon-512.maskable.png',
@@ -142,57 +144,56 @@ self.addEventListener('fetch', function (event) {
 
 self.addEventListener('sync', function (event) {
     console.log('Service worker sync event!');
-    if (event.tag === 'uploadPost') {
-        event.waitUntil(
-            syncPosts()
-        );
-    }
+
+    event.waitUntil(
+        syncPosts()
+    );
+
 });
 
 self.addEventListener('periodicsync', function (event) {
     console.log('Service worker periodicsync event!');
-    if (event.tag === 'uploadPost') {
-        event.waitUntil(
-            syncPosts()
-        );
-    }
+
+    event.waitUntil(
+        syncPosts()
+    );
+
 });
 
 async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
-            if (entry[0] === 'lastResponse') {
-                return;
-            }
-            let post = entry[1];
-            let formData = {}
-            formData.angler = post.angler;
-            formData.fishSpecies = post.fishSpecies;
-            formData.date = post.date;
-            formData.location = post.location;
-            formData.weight = post.weight;
-            formData.length = post.length;
-            formData.temperature = post.temperature;
-            formData.pressure = post.pressure;
-            formData.image = post.image;
-            formData.voiceMessage = post.voiceMessage;
-            try {
-                const response = await fetch('/post', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                if (response.ok) {
-                    del(entry[0]);
-                    //console.log('Post successfully uploaded!');
-                } else {
-                    //console.log('Post upload failed!');
+            if (entry[0] !== 'lastResponse') {
+                let post = entry[1];
+                let formData = {}
+                formData.angler = post.angler;
+                formData.fishSpecies = post.fishSpecies;
+                formData.date = post.date;
+                formData.location = post.location;
+                formData.weight = post.weight;
+                formData.length = post.length;
+                formData.temperature = post.temperature;
+                formData.pressure = post.pressure;
+                formData.image = post.image;
+                formData.voiceMessage = post.voiceMessage;
+                try {
+                    const response = await fetch('/post', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (response.ok) {
+                        del(entry[0]);
+                        //console.log('Post successfully uploaded!');
+                    } else {
+                        //console.log('Post upload failed!');
+                    }
                 }
-            }
-            catch(err){
-                //console.log(err);
+                catch(err){
+                    console.log(err);
+                }
             }
         });
     });

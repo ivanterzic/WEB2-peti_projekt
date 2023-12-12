@@ -7,9 +7,6 @@ document.querySelector('.navbar-toggler').addEventListener('click', function() {
     }
 });
 
-// add to document a button which includes 828600.png icon and fix it to the bottom right of the screen
-// the buttons id is notificationButton
-
 let notificationButton = document.createElement('button');
 notificationButton.id = 'notificationButton';
 notificationButton.className = 'btn btn-primary';

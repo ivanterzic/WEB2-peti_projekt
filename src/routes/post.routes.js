@@ -7,11 +7,6 @@ const { PrismaClient } = require('@prisma/client');
 const { sendPushNotification } = require('../utils');
 const prisma = new PrismaClient();
 
-router.use(express.urlencoded({
-    extended: true,
-    limit: '50mb'
-}));
-
 router.post('/', [
     body('angler').trim().isLength({ min: 1 }).escape(),
     body('fishSpecies').trim().isLength({ min: 1 }).escape(),
@@ -45,7 +40,7 @@ router.post('/', [
             }
         });
         res.sendFile(path.join(__dirname, "../../public", "postSuccessful.html"));
-        const text = `${angler} je uhvatio/la ${fishSpecies}! Pogledaj objavu!`
+        const text = `${angler} je uhvatio/la ribu ${fishSpecies}! Pogledaj objavu!`
         await sendPushNotification(text);
     } catch (error) {
         console.log(error);

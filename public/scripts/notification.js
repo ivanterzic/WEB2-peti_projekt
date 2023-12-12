@@ -59,6 +59,6 @@ async function subscriptionSetup() {
             console.log("User already subscribed");
         }
     } catch (err) {
-        console.log("Error", err);
+        //console.log("Error", err);
     }
 }
