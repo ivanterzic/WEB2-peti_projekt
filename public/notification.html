@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/header.css">
+    <title>Snap My Catch</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">
+            <img src="favicon.ico" alt="">
+            <span class="app-title">Snap My Catch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="post.html">Objavi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feed.html">Pregledaj objave</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="notification.html">Obavijesti</a>
+                </li>
+            </ul>
+        </div>
+        <script>
+            document.querySelector('.navbar-toggler').addEventListener('click', function() {
+                var navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                } else {
+                    navbarCollapse.classList.add('show');
+                }
+            });
+        </script>
+    </nav>
+    <main class="container shadow p-3">     
+        <hr>
+        <div class="row p-2 d-flex flex-row">
+            <div class="col-md-7 justify-content-center align-items-center">
+                <h4>Podijeli ulov s drugima. <span class="text-muted">Brzo i jednostavno.</span></h4>
+                <p>Potraži gumb "Objavi" u meniju.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row p-2 d-flex justify-content-end">
+            <div class="col-md-7 order-md-2 d-flex flex-column align-items-end">
+                <h4>Pogledaj što drugi love. <span class="text-muted"></span></h4>
+                <p>Potraži gumb "Pregledaj objave u meniju".</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row p-2 d-flex flex-row">
+            <div class="col-md-7 justify-content-center align-items-center">
+                <h4>Kopiraj link ulova <span class="text-muted">i podjeli s drugima.</span></h4>
+                <p>Možeš i otvoriti link koji je netko tebi poslao.</p>
+            </div>
+        </div>
+        <hr>
+    </main>
+    <script>
+        navigator.serviceWorker.register('sw.mjs', {type : "module"}).then(function(registration) {
+            console.log('Service worker registered ! ', registration);
+        }).catch(function(err) {
+            console.log('Service worker registration failed: ', err);
+        });
+    </script>
+</body>
+</html>
