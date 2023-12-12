@@ -215,10 +215,12 @@
             fetchPosts();
         });
 
-        document.getElementById('show-more-button').addEventListener('click', function () {
+        document.getElementById('show-more-button').addEventListener('click', async function () {
             document.getElementById('show-more-button').setAttribute('disabled', 'disabled');
-            fetchPosts();
+            document.getElementById('show-more-button').innerHTML = 'Učitavam...';
+            await fetchPosts();
             document.getElementById('show-more-button').removeAttribute('disabled');
+            document.getElementById('show-more-button').innerHTML = 'Pokaži više...';
         });
     </script>
 </body>

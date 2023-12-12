@@ -192,7 +192,7 @@ async function syncPosts() {
                     }
                 }
                 catch(err){
-                    console.log(err);
+                   // console.log(err);
                 }
             }
         });
