@@ -4,6 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { sanitizeBody } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
+const { sendPushNotification } = require('../utils');
 const prisma = new PrismaClient();
 
 router.use(express.urlencoded({
@@ -44,6 +45,7 @@ router.post('/', [
             }
         });
         res.sendFile(path.join(__dirname, "../../public", "postSuccessful.html"));
+        await sendPushNotification();
     } catch (error) {
         console.log(error);
         res.sendFile(path.join(__dirname, "../../public", "postUnsuccessful.html"));

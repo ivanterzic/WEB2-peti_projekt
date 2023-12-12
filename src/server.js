@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const postRouter = require('./routes/post.routes');
 const onePostRouter = require('./routes/onepost.routes');
+const subscribeRouter = require('./routes/subscribe.routes');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use('/post', postRouter);
 app.use('/onepost', onePostRouter);
+app.use('/subscribe', subscribeRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../public", "index.html"));

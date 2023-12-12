@@ -10,8 +10,8 @@ datasource db {
 }
 
 model subscription {
-  id   Int     @id
-  species String?
+  id Int @id @default(autoincrement())
+  data String?
 }
 
 model post {
