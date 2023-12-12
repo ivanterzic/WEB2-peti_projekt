@@ -149,6 +149,15 @@ self.addEventListener('sync', function (event) {
     }
 });
 
+self.addEventListener('periodicsync', function (event) {
+    console.log('Service worker periodicsync event!');
+    if (event.tag === 'uploadPost') {
+        event.waitUntil(
+            syncPosts()
+        );
+    }
+});
+
 async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
@@ -204,23 +213,22 @@ self.addEventListener("notificationclick", function (event) {
 
 } );
 
-self.addEventListener("notificationclose", function (event) {
+/*self.addEventListener("notificationclose", function (event) {
     console.log("notificationclose", event);
-
-});
+});*/
 
 
 
 self.addEventListener('push', function (event) {
     console.log("push event", event);
-    var data = { title: "title", body: "body", redirectUrl: "/" };
     if (event.data) {
-        data = JSON.parse(event.data.text());
+        let data = JSON.parse(event.data.text());
+        console.log("data", data);
         var options = {
             body: data.body,
-            icon: "assets/img/android/android-launchericon-96-96.png",
-            badge: "assets/img/android/android-launchericon-96-96.png",
-            vibrate: [200, 100, 200, 100, 200, 100, 200],
+            icon: "./icons/manifest-icon-192.maskable.png",
+            badge: "./icons/manifest-icon-192.maskable.png",
+            vibrate: [200, 100, 200],
             data: {
                 redirectUrl: data.redirectUrl,
             },

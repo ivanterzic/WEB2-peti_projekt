@@ -1,17 +1,20 @@
-let notificationButton = document.getElementById('notificationButton');
-
 if ("Notification" in window && "serviceWorker" in navigator) {
-    notificationButton.addEventListener("click", function () {
-        Notification.requestPermission(async function (result) {
-            if (result === "granted") {
-                await subscriptionSetup();
-            } else {
-                console.log("Denied");
-            }
-        });
+    document.getElementById('notificationButton').addEventListener("click", function () {
+        var confirmation = confirm("Jeste li sigurni da želite primati obavijesti o novim objavama?");
+        if (confirmation) {
+            Notification.requestPermission(async function (result) {
+                if (result === "granted") {
+                    await subscriptionSetup();
+                } else {
+                    console.log("Denied");
+                }
+            });
+        } else {
+            //console.log("Click canceled");
+        }
     });
 } else {
-    notificationButton.setAttribute("disabled", "");
+    document.getElementById('notificationButton').setAttribute("disabled", "");
     console.log("Notifications not supported");
 }
 

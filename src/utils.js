@@ -2,6 +2,7 @@ const webpush = require('web-push');
 const {
     PrismaClient
 } = require('@prisma/client');
+const { text } = require('express');
 const prisma = new PrismaClient();
 
 const vapidKeys = {
@@ -9,7 +10,7 @@ const vapidKeys = {
     privateKey: process.env.PRIVATE_KEY
 };
 
-async function sendPushNotification() {
+async function sendPushNotification(text) {
     webpush.setVapidDetails(
         'mailto:ivan.terzic2@gmail.com',
         vapidKeys.publicKey,
@@ -20,14 +21,14 @@ async function sendPushNotification() {
 
     subscriptions.forEach(async sub => {
         try {
-            console.log("Sending push notification to: ", sub.data);
+            //console.log("Sending push notification to: ", sub.data);
             await webpush.sendNotification(JSON.parse(sub.data), JSON.stringify({
-                title: 'Novi post!',
-                body: "New post",
-                redirectUrl: '/index.html'
+                title: 'Novi ulov!',
+                body: text,
+                redirectUrl: '/feed.html'
             }))
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     });
 }

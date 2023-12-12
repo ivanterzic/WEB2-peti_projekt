@@ -1,9 +1,9 @@
 + koristiti neki native API (camera, microphone, bluetooth, …) osim već isprobanog geo API-ja -> koristim camera i microphone te file system
 + biti installable
-+ imati barem jednu cacheing strategiju -> koristim cache first za neke stvari, neke ne spemam u cache
++ imati barem jednu cacheing strategiju -> koristim cache first za neke stvari
 + offline rad barem za app shell -> prikaziju se sve html stranice, js i css koji su u cacheu (sve osim prikaza jedne objave), objave se keširaju (3 najnovije koje je korisnik vidio) te se spremaju u indexdb i pokazuju ako i samo ako se ne mogu dohvatiti objave sa servera
 + background sync -> sync postoji, sprema se u index db te se provjerava ima li zapisa za sinkronizaciju. Ako se sinkronizacija ne može obaviti, zapisi ostaju u bazi te se pokušava opet kasnije
-push notifikacija (npr. nakon što prođe bg sync možete poslati push notif)
++ push notifikacija (npr. nakon što prođe bg sync možete poslati push notif) -> obavijesti o novim objavama
 + demonstrirati barem na jednom primjeru progressive enhancement/gracefull degradation -> ako nema kameru ili mikrofon pokazuje se poruka (gracefull degradation)
 
 Aplikaciju postaviti na Render ili neki sličan servis

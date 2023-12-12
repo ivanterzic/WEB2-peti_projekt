@@ -95,7 +95,7 @@ recordButton.addEventListener('click', function () {
             });
         })
         .catch(function (error) {
-            console.log('Error accessing microphone:', error);
+            //console.log('Error accessing microphone:', error);
             messageText.textContent = 'Vaš preglednik ne podržava mikrofon ili niste dodijelili dozvolu za njega.';                
         });
 });

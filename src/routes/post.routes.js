@@ -45,7 +45,8 @@ router.post('/', [
             }
         });
         res.sendFile(path.join(__dirname, "../../public", "postSuccessful.html"));
-        await sendPushNotification();
+        const text = `${angler} je uhvatio/la ${fishSpecies}! Pogledaj objavu!`
+        await sendPushNotification(text);
     } catch (error) {
         console.log(error);
         res.sendFile(path.join(__dirname, "../../public", "postUnsuccessful.html"));
