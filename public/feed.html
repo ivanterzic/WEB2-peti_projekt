@@ -36,42 +36,43 @@
 
     </nav>
 
-    <div id="loading-page">
-        <style>
-            .loading {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100px;
-            }
-
-            .loading .spinner {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                border: 4px solid #f3f3f3;
-                border-top: 4px solid #3498db;
-                animation: spin 1s linear infinite;
-            }
-
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        </style>
-        <div class="loading">
-            <div class="spinner"></div>
-        </div>
-    </div>
+    
     <div id="post-container"></div>
     <div class="d-flex justify-content-center">
         <h6 id="no-more-posts" style="display: none;" class="lead">Nema više objava za pregled.</h6>
         <button id="show-more-button" class="btn btn-danger" style="display: none;">Pokaži više...</button>
+        <div id="loading-page">
+            <style>
+                .loading {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100px;
+                }
+    
+                .loading .spinner {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    border: 4px solid #f3f3f3;
+                    border-top: 4px solid #3498db;
+                    animation: spin 1s linear infinite;
+                }
+    
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+    
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            </style>
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
     </div>
     <hr>
     <script id="post-template" type="text/template">
@@ -162,6 +163,8 @@
             var noMorePosts = document.getElementById('no-more-posts');
             var showMoreButton = document.getElementById('show-more-button');
             try {
+                showMoreButton.style.display = 'none';
+                loadingPage.style.display = 'block';
                 fetch('/post?offset=' + offset)
                     .then(function (response) {
                         return response.json();
@@ -197,6 +200,7 @@
                         }
                         else  {
                             showMoreButton.style.display = 'block';
+                            loadingPage.style.display = 'none';
                             offset += limit;
                         }
                     }).catch(function (error) {
@@ -216,11 +220,7 @@
         });
 
         document.getElementById('show-more-button').addEventListener('click', async function () {
-            document.getElementById('show-more-button').setAttribute('disabled', 'disabled');
-            document.getElementById('show-more-button').innerHTML = 'Učitavam...';
             await fetchPosts();
-            document.getElementById('show-more-button').removeAttribute('disabled');
-            document.getElementById('show-more-button').innerHTML = 'Pokaži više...';
         });
     </script>
 </body>
