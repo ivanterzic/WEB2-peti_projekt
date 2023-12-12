@@ -216,7 +216,9 @@
         });
 
         document.getElementById('show-more-button').addEventListener('click', function () {
+            document.getElementById('show-more-button').setAttribute('disabled', 'disabled');
             fetchPosts();
+            document.getElementById('show-more-button').removeAttribute('disabled');
         });
     </script>
 </body>
