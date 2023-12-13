@@ -55,15 +55,6 @@ self.addEventListener('activate', async function (event) {
             );
         })
     );
-    keys().then(function (keys) {
-        let keysCopyWithLastResponse = keys;
-        keysCopyWithLastResponse = keysCopyWithLastResponse.filter(function (key) {
-            return key !== 'lastResponse';
-        });
-        if (keysCopyWithLastResponse.length > 0) {
-            self.registration.sync.register('uploadPost');
-        }
-    });
 });
 
 self.addEventListener('fetch', function (event) {
@@ -142,28 +133,31 @@ self.addEventListener('fetch', function (event) {
     );
 });
 
-self.addEventListener('sync', function (event) {
+self.addEventListener('sync', async function (event) {
     console.log('Service worker sync event!');
-
-    event.waitUntil(
+    await event.waitUntil(
         syncPosts()
     );
-
-});
-
-self.addEventListener('periodicsync', function (event) {
-    console.log('Service worker periodicsync event!');
-
-    event.waitUntil(
-        syncPosts()
-    );
+    let keysLenWithoutLastResponse 
+    keys().then(function (keys) {
+        keys.forEach(key => {
+            if (key !== 'lastResponse') {
+                keysLenWithoutLastResponse++;
+            }
+        });
+    });
+    if (keysLenWithoutLastResponse > 0) {
+        self.registration.sync.register('uploadPost');
+    }
 
 });
 
 async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
+            console.log("entry", entry)
             if (entry[0] !== 'lastResponse') {
+                console.log("entry")
                 let post = entry[1];
                 let formData = {}
                 formData.angler = post.angler;
@@ -176,6 +170,7 @@ async function syncPosts() {
                 formData.pressure = post.pressure;
                 formData.image = post.image;
                 formData.voiceMessage = post.voiceMessage;
+                console.log("slozen post")
                 try {
                     const response = await fetch('/post', {
                         method: 'POST',
@@ -186,13 +181,13 @@ async function syncPosts() {
                     });
                     if (response.ok) {
                         del(entry[0]);
-                        //console.log('Post successfully uploaded!');
+                        console.log('Post successfully uploaded!');
                     } else {
-                        //console.log('Post upload failed!');
+                        console.log('Post upload failed!');
                     }
                 }
                 catch(err){
-                   // console.log(err);
+                    console.log(err);
                 }
             }
         });

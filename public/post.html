@@ -138,7 +138,7 @@
             get,
             set,
         } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
-        document.getElementById('submitButton').addEventListener('click', function (event) {
+        document.getElementById('submitButton').addEventListener('click', async function (event) {
             event.preventDefault();
             if ('serviceWorker' in navigator && 'SyncManager' in window) {
                 let object = {
@@ -153,10 +153,11 @@
                     image: document.getElementById('image').value,
                     voiceMessage: document.getElementById('voiceMessage').value
                 };
-                navigator.serviceWorker.ready
-                    .then(function (swRegistration) {
+                await navigator.serviceWorker.ready
+                    .then(async function (swRegistration) {
                         //console.log('swRegistration', swRegistration)
-                        set(Number(new Date()), object);
+                        await set(Number(new Date()), object);
+
                         return swRegistration.sync.register('uploadPost');
                     })
                     .then(function () {
@@ -168,7 +169,7 @@
                         window.location.href = 'postUnsuccessful.html';
                     });
             } else {
-                console.log('Service worker not supported');
+                //console.log('Service worker not supported');
                 alert(
                     'Vaš preglednik ne podržava service worker. Pokušat će se poslati ulov bez service workera. Ako se ne uspije poslati, pokušajte ponovno kasnije.');
                 document.getElementById('anglerForm').submit();
