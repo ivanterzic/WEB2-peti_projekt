@@ -138,26 +138,12 @@ self.addEventListener('sync', async function (event) {
     await event.waitUntil(
         syncPosts()
     );
-    let keysLenWithoutLastResponse 
-    keys().then(function (keys) {
-        keys.forEach(key => {
-            if (key !== 'lastResponse') {
-                keysLenWithoutLastResponse++;
-            }
-        });
-    });
-    if (keysLenWithoutLastResponse > 0) {
-        self.registration.sync.register('uploadPost');
-    }
-
 });
 
 async function syncPosts() {
     entries().then(function (entries) {
         entries.forEach(async (entry) => {
-            console.log("entry", entry)
             if (entry[0] !== 'lastResponse') {
-                console.log("entry")
                 let post = entry[1];
                 let formData = {}
                 formData.angler = post.angler;
@@ -170,7 +156,6 @@ async function syncPosts() {
                 formData.pressure = post.pressure;
                 formData.image = post.image;
                 formData.voiceMessage = post.voiceMessage;
-                console.log("slozen post")
                 try {
                     const response = await fetch('/post', {
                         method: 'POST',
@@ -187,7 +172,7 @@ async function syncPosts() {
                     }
                 }
                 catch(err){
-                    console.log(err);
+                    //console.log(err);
                 }
             }
         });
